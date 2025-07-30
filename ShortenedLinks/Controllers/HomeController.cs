@@ -1,32 +1,43 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
 using ShortenedLinks.Models;
 
 namespace ShortenedLinks.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly string _connectionString;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IConfiguration configuration)
         {
-            _logger = logger;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            var Urls = new List<UrlEntry>();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            using var connection = new MySqlConnection(_connectionString);
+            connection.Open();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            string query = "SELECT * FROM Urls ORDER BY CreatedDate DESC";
+            var command = new MySqlCommand(query, connection);
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Urls.Add(new UrlEntry
+                {
+                    Id = Convert.ToInt32(reader["Id"]),
+                    LongUrl = reader["LongUrl"].ToString(),
+                    ShortUrl = reader["ShortUrl"].ToString(),
+                    CreatedDate = Convert.ToDateTime(reader["CreatedDate"]),
+                    JumpsCount = Convert.ToInt32(reader["JumpsCount"])
+                });
+            }
+
+            return View(Urls);
         }
     }
 }

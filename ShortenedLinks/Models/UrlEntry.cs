@@ -1,6 +1,6 @@
 ﻿namespace ShortenedLinks.Models
 {
-    public class EntryLink
+    public class UrlEntry
     {
         public int Id { get; set; }
         public string LongUrl { get; set; }
