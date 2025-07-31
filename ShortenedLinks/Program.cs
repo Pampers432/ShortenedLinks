@@ -37,6 +37,12 @@ namespace ShortenedLinks
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            // Маршрут для коротких URL
+            app.MapControllerRoute(
+                name: "shortUrl",
+                pattern: "{shortUrl}",
+                defaults: new { controller = "Home", action = "RedirectUrl" });
+
             app.Run();
         }
     }

@@ -21,7 +21,9 @@
         {
             <tr>
                 <td>@item.LongUrl</td>
-                <td>@item.ShortUrl</td>
+                <td>
+                    <a href="/@item.ShortUrl" target="_blank">@item.ShortUrl</a>
+                </td>
                 <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
                 <td>@item.JumpsCount</td>
                 <td>
