@@ -33,9 +33,16 @@ namespace ShortenedLinks
 
             app.UseAuthorization();
 
+            // Маршрут для коротких URL
+            app.MapControllerRoute(
+                name: "shortUrlRedirect",
+                pattern: "{shortUrl}",  // Ловит любые URL вида your-site.com/abc123
+                defaults: new { controller = "Home", action = "RedirectUrl" },
+                constraints: new { shortUrl = @"^[a-zA-Z0-9]{6}$" });
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");            
 
             app.Run();
         }

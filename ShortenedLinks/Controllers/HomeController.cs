@@ -42,6 +42,23 @@ namespace ShortenedLinks.Controllers
             return View(Urls);
         }
 
+        [HttpGet("{shortUrl}")]
+        public IActionResult RedirectUrl(string shortUrl)
+        {
+            var urlEntry = _urlService.GetByShortUrl(shortUrl);
+
+            if (urlEntry == null)
+            {
+                return NotFound();
+            }
+
+            _urlService.IncrementClicls(shortUrl);
+
+            return Redirect(urlEntry.LongUrl);
+        }
+
+
+
         [HttpGet]
         public IActionResult Create()
         {

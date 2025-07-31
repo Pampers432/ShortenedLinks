@@ -21,7 +21,13 @@
         {
             <tr>
                 <td>@item.LongUrl</td>
-                <td>@item.ShortUrl</td>
+                <td>
+                    @* Вид ссылки без https *@
+                    @* <a href="/@item.ShortUrl" target="_blank">@item.ShortUrl</a> *@
+                    <a href="https://@Context.Request.Host/@item.ShortUrl" target="_blank">
+                        @Context.Request.Host/@item.ShortUrl
+                    </a>
+                </td>
                 <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
                 <td>@item.JumpsCount</td>
                 <td>
