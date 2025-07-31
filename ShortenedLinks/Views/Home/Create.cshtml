@@ -32,11 +32,15 @@
 
     <script>
         // Клиентская проверка перед отправкой
-        document.getElementById('urlForm').addEventListener('submit', function(e) {
-            const longUrl = document.getElementById('LongUrl').value;
-            if (!longUrl.startsWith('http://') && !longUrl.startsWith('https://')) {
-                alert('URL должен начинаться с http:// или https://');
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const urlInput = document.getElementById('LongUrl');
+            const url = urlInput.value.toLowerCase();
+            const validDomains = ['.com', '.net', '.org', '.io'];
+
+            if (!validDomains.some(d => url.includes(d))) {
                 e.preventDefault();
+                alert('URL должен содержать правильный домен (.com, .net etc.)');
+                urlInput.focus();
             }
         });
     </script>
