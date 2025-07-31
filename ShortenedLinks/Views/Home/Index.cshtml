@@ -1,4 +1,11 @@
-﻿<h2>Список сокращённых ссылок</h2>
+﻿@model IEnumerable<UrlEntry>
+
+<h2>Список сокращённых ссылок</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Создать новую</a>
+</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -6,6 +13,7 @@
             <th>Сокращенный URL</th>
             <th>Дата создания</th>
             <th>Количество переходов</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +24,13 @@
                 <td>@item.ShortUrl</td>
                 <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
                 <td>@item.JumpsCount</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Редактировать</a>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Вы уверены?')">Удалить</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
