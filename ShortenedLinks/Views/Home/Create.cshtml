@@ -6,21 +6,21 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-action="Create">
-    <div class="form-group">
-        <label asp-for="LongUrl" class="control-label"></label>
-        <input asp-for="LongUrl" class="form-control" />
+<form asp-action="Create" id="urlForm">
+    <div class="form-group mb-3">
+        <label asp-for="LongUrl" class="form-label"></label>
+        <input asp-for="LongUrl" class="form-control" placeholder="https://example.com" />
         <span asp-validation-for="LongUrl" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="ShortUrl" class="control-label"></label>
-        <input asp-for="ShortUrl" class="form-control" readonly />
-        <small class="form-text text-muted">Это ваша сокращенная ссылка</small>
+    <div class="form-group mb-3">
+        <label asp-for="ShortUrl" class="form-label"></label>
+        <input asp-for="ShortUrl" class="form-control" placeholder="Оставьте пустым для автогенерации" readonly/>
+        <span asp-validation-for="ShortUrl" class="text-danger"></span>
     </div>
 
-    <div class="form-group mt-3">
-        <input type="submit" value="Создать" class="btn btn-primary" />
+    <div class="form-group mt-4">
+        <button type="submit" class="btn btn-primary">Создать</button>
         <a asp-action="Index" class="btn btn-secondary">Отмена</a>
     </div>
 </form>
@@ -29,4 +29,15 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        // Клиентская проверка перед отправкой
+        document.getElementById('urlForm').addEventListener('submit', function(e) {
+            const longUrl = document.getElementById('LongUrl').value;
+            if (!longUrl.startsWith('http://') && !longUrl.startsWith('https://')) {
+                alert('URL должен начинаться с http:// или https://');
+                e.preventDefault();
+            }
+        });
+    </script>
 }
