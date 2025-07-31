@@ -45,7 +45,6 @@ cd ShortenedLinks
 ```bash
 dotnet run
 ```
-The app will be available at: [https://localhost:5001](https://localhost:5001)  
 
 ---
 
